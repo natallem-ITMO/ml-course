@@ -62,7 +62,7 @@ def euclidean_distance(row1, row2):
 
 
 def chebyshev_distance(row1, row2):
-    #in 4 7 10 test
+    # in 4 7 10 test
     distance = 0.0
     for i, j in zip(row1, row2[:-1]):
         distance = max(distance, abs(i - j))
@@ -86,23 +86,23 @@ def sort_dtrain(train, test_row, func_distance):
     return (distances)
 
 
-metrics = {
+metric_dict = {
     "manhattan": manhattan_distance,
     "euclidean": euclidean_distance,
     "chebyshev": chebyshev_distance
 }
 
-ks = {"uniform": uniform_K,
-      "triangular": triangular_K,
-      "epanechnikov": epanechnikov_K,
-      "quartic": quartic_K,
-      "triweight": triweight_K,
-      "tricube": tricube_K,
-      "gaussian": gaussian_K,
-      "cosine": cosine_K,
-      "logistic": logistic_K,
-      "sigmoid": sigmoid_K
-      }
+K_dict = {"uniform": uniform_K,
+          "triangular": triangular_K,
+          "epanechnikov": epanechnikov_K,
+          "quartic": quartic_K,
+          "triweight": triweight_K,
+          "tricube": tricube_K,
+          "gaussian": gaussian_K,
+          "cosine": cosine_K,
+          "logistic": logistic_K,
+          "sigmoid": sigmoid_K
+          }
 
 
 def get_zero_dist(sorted_dataset):
@@ -132,10 +132,9 @@ def find_a(sorted_datatrain, window, k_function):
 dtest = read_ds()
 row = [float(x) for x in (input()).split()]
 row.append(0.0)
-metric = metrics[input()]
-k_type = ks[input()]
+metric = metric_dict[input()]
+k_type = K_dict[input()]
 window_type = input()
-is_1_test = 1 if (k_type == uniform_K and window_type == "fixed" and row == [0.0, 0.0, 0.0]) else 0
 sorted_dataset = sort_dtrain(dtest, row, metric)
 window = 1
 if (window_type == "variable"):
