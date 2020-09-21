@@ -251,16 +251,14 @@ def count_f_measure(table):
 
 def leave_one_out_cross_validation_for(dataset, metric_func, k_func, count_dominator_for_k_func, window,
                                        label_dimension=1):
+    print(window)
     binary_classification_matrix = [[0 for x in range(class_count)] for y in range(class_count)]
-    # print(binary_classification_matrix)
     for i in range(len(dataset)):
         dataset_train = [row for (j, row) in enumerate(dataset) if (j != i)]
         test_row = dataset[i]
         [prediction, actual] = calculate_prediction_and_actual(dataset_train, test_row, metric_func, k_func,
                                                                count_dominator_for_k_func, window, label_dimension)
-        # print("prediction", prediction, " actual",actual,"for test %d %s" % (i, str(test_row)))
         binary_classification_matrix[prediction - 1][actual - 1] += 1
-    # print(binary_classification_matrix)
     return count_f_measure(binary_classification_matrix)
 
 
@@ -290,8 +288,7 @@ def draw_plot_for(window_type, start_range, end_range, factor):
                                            window_type_dict[window_type][1], window,
                                            encoding_type_dict[selected_label_encoding][1])
         for window in x]
-    colors = ["r" for i in x]
-    plt.scatter(x, y, c=colors)
+    plt.plot(x, y, '.-y', alpha=0.6, label="f1-measure", lw=5)
     plt.show()
 
 
@@ -320,7 +317,7 @@ selected_window_type = "variable"
 selected_window = 10
 max_measure = 0
 
-search_parameters()
+# search_parameters()
 print_selected_parameters()
 
 # drow plot for variable window
