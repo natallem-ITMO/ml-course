@@ -317,7 +317,7 @@ selected_window_type = "variable"
 selected_window = 10
 max_measure = 0
 
-# search_parameters()
+search_parameters()
 print_selected_parameters()
 
 # drow plot for variable window

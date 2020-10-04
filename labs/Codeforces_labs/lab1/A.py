@@ -16,8 +16,8 @@ def to_parts(classes, part_count):
 def chunkify(lst,n):
     return [lst[i::n] for i in range(n)]
 
-[N,M,K] = [int(x) for x in (input()).split()]
-class_index = destribute_input(M)
+[N, features_num, K] = [int(x) for x in (input()).split()]
+class_index = destribute_input(features_num)
 res = to_parts(class_index, K)
 for arr  in res :
     print (len(arr), *arr)
