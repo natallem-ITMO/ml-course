@@ -133,7 +133,7 @@ def count_smape(w):
         F_t = predict(w, x)
         A_t = x[-1]
         sum += abs(F_t - A_t) / (abs(F_t) + abs(A_t))
-    return sum * 100 / len(dataset)
+    return sum / len(dataset)
 
 
 def gradient_descend():
@@ -181,8 +181,8 @@ w = gradient_descend()
 for i in w[1:-1]:
     print(i)
 print(w[0])
-# smape = count_smape(w)
-# print(smape)
-# S = smape/100
-# score=100*(B-S)/(B-J)
-# print("SCORE", score)
+smape = count_smape(w)
+print(smape)
+S = smape/100
+score=100*(B-S)/(B-J)
+print("SCORE", score)
