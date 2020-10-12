@@ -71,9 +71,6 @@ def calc_NRMSE(w, dataset):
 min_max_train = dataset_minmax(train_dataset)
 min_max_test = dataset_minmax(test_dataset)
 
-dif_y_train = min_max_train[-1][1] - min_max_train[-1][0]
-dif_y_test = min_max_test[-1][1] - min_max_test[-1][0]
-
 normalize(train_dataset, min_max_train)
 normalize(test_dataset, min_max_test)
 
