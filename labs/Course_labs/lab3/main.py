@@ -6,19 +6,25 @@ from math import exp
 from matplotlib import pyplot as plt
 
 
-def change_C(c):
+def change_C(c=-1000):
     global C
-    C = c
+    if c != -1000:
+        C = c
+    return C
 
 
-def change_P(p):
+def change_P(p=-1000):
     global P
-    P = p
+    if p != -1000:
+        P = p
+    return P
 
 
-def change_B(b):
+def change_B(b=-1000):
     global B
-    B = b
+    if b != -1000:
+        B = b
+    return B
 
 
 param_name_variable_dic = {
@@ -143,8 +149,8 @@ def find_a_b(train, test):
                 b = calc_b(a_i, a_j, a_i_old, a_j_old, E_i, E_j, i, j)
                 a[i] = a_i
                 a[j] = a_j
-        if counter % 100 == 0:
-            print(counter, calc_accuracy(train, test))
+        # if counter % 100 == 0:
+        #     print(counter, calc_accuracy(train, test))
 
 
 def predict_for(row, dataset):
@@ -271,7 +277,7 @@ def test_on_blocks(file, name_parameter, parameter_value):
 
 
 def find_best_parameter(parameter_name, type_kernel_name):
-    str = "research/" + type_kernel_name + "/research_result_for_parameter_" + parameter_name + ".txt"
+    str = "research/" + dataset_name + "/" + type_kernel_name + "/research_result_for_parameter_" + parameter_name + ".txt"
     file = open(str, "w")
     best_accuracy = -1
     best_parameter = parameter_choice_dic[parameter_name][0]
@@ -286,11 +292,17 @@ def find_best_parameter(parameter_name, type_kernel_name):
 
 
 def test_and_print(type_kernel_name):
+    file_name = "research/" + dataset_name + "/" + type_kernel_name + "/draw_inf.txt"
+    file = open(file_name, "w")
+    file.write("Using parameters:\n")
     global cur_core_function
     cur_core_function = kernel_dict[type_kernel_name]
     for str in parameter_for_kernel_type_dic[type_kernel_name]:
         find_best_parameter(str, type_kernel_name)
+        file.write("%s = %.3f\n" % (str, param_name_variable_dic[str]()))
     find_a_b(dataset, dataset)
+    file.write("Accuracy=%.3f\n" % calc_accuracy(dataset, dataset))
+    file.close()
     drow_dataset(dataset, type_kernel_name)
 
 
@@ -305,7 +317,7 @@ parameter_choice_dic = {
     "P": [2, 3, 4, 5],
     "B": [1, 2, 3, 4, 5]
 }
-# ,  0.1, 0.5, 1.0, 5.0, 10.0, 50.0, 100.0],
+
 parameter_for_kernel_type_dic = {
     "linear": ["C"],
     "polynomial": ["C", "P"],
@@ -316,34 +328,30 @@ parameter_for_kernel_type_dic = {
 num_blocks = 5
 tol = 0.0001
 max_counter = 500
+dataset_names = ["geyser", "chips"]
 cur_core_function = linear_kernel
+dataset_name = "geyser"
 
 # HYPER PARAMETERS
 C = parameter_choice_dic["C"][-1]
 P = parameter_choice_dic["P"][0]
 B = parameter_choice_dic["B"][-1]
 
-# dataset_name = "geyser.csv"
-dataset_name = "chips.csv"
-dataset = read_and_prepare_dataset(dataset_name)
-# dataset = read_and_prepare_dataset("my.csv")
-# dataset = read_and_prepare_dataset("chips.csv")
-# print("average acc", test_on_blocks())
+dataset = 0
 
 a = 0
 b = 0
 y = list()
 K = list()
 
-# find_a_b(dataset)
+for ds_name in dataset_names:
+    print("dataset", ds_name)
+    dataset_name = ds_name
+    dataset = read_and_prepare_dataset(dataset_name + ".csv")
+    print("calc for linear")
+    test_and_print("linear")
+    print("calc for polynomial")
+    test_and_print("polynomial")
+    print("calc for gaussian")
+    test_and_print("gaussian")
 
-# print(calc_accuracy(a, b, dataset, dataset, cur_core_function))
-#
-# drow_dataset(dataset, a, b)
-test_and_print("linear")
-test_and_print("polynomial")
-test_and_print("gaussian")
-
-# find_best_parameter("C")
-
-# average_accurancy = test_on_blocks()

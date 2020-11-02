@@ -1,0 +1,65 @@
+Block testing for parameter C = 0.050
+Accuracy for block 0 = 0.3333
+Accuracy for block 1 = 0.4167
+Accuracy for block 2 = 0.4583
+Accuracy for block 3 = 0.4583
+Accuracy for block 4 = 0.6364
+Average accuracy=0.4606
+
+Block testing for parameter C = 0.100
+Accuracy for block 0 = 0.3333
+Accuracy for block 1 = 0.5000
+Accuracy for block 2 = 0.3750
+Accuracy for block 3 = 0.4583
+Accuracy for block 4 = 0.3182
+Average accuracy=0.3970
+
+Block testing for parameter C = 0.500
+Accuracy for block 0 = 0.5000
+Accuracy for block 1 = 0.4167
+Accuracy for block 2 = 0.5000
+Accuracy for block 3 = 0.5417
+Accuracy for block 4 = 0.4545
+Average accuracy=0.4826
+
+Block testing for parameter C = 1.000
+Accuracy for block 0 = 0.4583
+Accuracy for block 1 = 0.4167
+Accuracy for block 2 = 0.5417
+Accuracy for block 3 = 0.4583
+Accuracy for block 4 = 0.5455
+Average accuracy=0.4841
+
+Block testing for parameter C = 5.000
+Accuracy for block 0 = 0.3333
+Accuracy for block 1 = 0.5000
+Accuracy for block 2 = 0.3333
+Accuracy for block 3 = 0.5417
+Accuracy for block 4 = 0.5909
+Average accuracy=0.4598
+
+Block testing for parameter C = 10.000
+Accuracy for block 0 = 0.4167
+Accuracy for block 1 = 0.4583
+Accuracy for block 2 = 0.5417
+Accuracy for block 3 = 0.3750
+Accuracy for block 4 = 0.4091
+Average accuracy=0.4402
+
+Block testing for parameter C = 50.000
+Accuracy for block 0 = 0.4167
+Accuracy for block 1 = 0.3750
+Accuracy for block 2 = 0.3333
+Accuracy for block 3 = 0.3333
+Accuracy for block 4 = 0.4545
+Average accuracy=0.3826
+
+Block testing for parameter C = 100.000
+Accuracy for block 0 = 0.4167
+Accuracy for block 1 = 0.3750
+Accuracy for block 2 = 0.4167
+Accuracy for block 3 = 0.4583
+Accuracy for block 4 = 0.5000
+Average accuracy=0.4333
+
+Best parameter C = 1.000
