@@ -27,13 +27,6 @@ def change_B(b=-1000):
     return B
 
 
-param_name_variable_dic = {
-    "C": change_C,
-    "P": change_P,
-    "B": change_B
-}
-
-
 def str_column_to_int(dataset, column):
     class_values = [row[column] for row in dataset]
     unique = set(class_values)
@@ -47,7 +40,6 @@ def str_column_to_int(dataset, column):
 
 def read_and_prepare_dataset(dataset_name):
     dataset_ = pd.read_csv("datasets/" + dataset_name)
-    # print(dataset_)
     dataset = dataset_.values.tolist()
     str_column_to_int(dataset, len(dataset[0]) - 1)
     return dataset
@@ -91,31 +83,13 @@ def calc_E(j):
     return sum + b - y[j]
 
 
-def random_not(i):
-    j = randrange(0, len(a))
-    while i == j:
-        j = randrange(0, len(a))
-    return j
-
-
 def calc_b(a_i, a_j, a_i_old, a_j_old, E_i, E_j, i, j):
     b_1 = b - E_i - y[i] * (a_i - a_i_old) * K[i][i] - y[j] * (a_j - a_j_old) * K[i][j]
     b_2 = b - E_j - y[i] * (a_i - a_i_old) * K[i][j] - y[j] * (a_j - a_j_old) * K[j][j]
     return (b_1 + b_2) / 2
 
 
-def calc_b_2():
-    cur_index = -1
-    for index, val in enumerate(a):
-        if 0 < val < C:
-            cur_index = index
-            break
-    if cur_index == -1:
-        return b
-    return -(calc_f_i(cur_index) - y[cur_index])
-
-
-def find_a_b(train, test):
+def find_a_b(train):
     global y, K, a, b
     a = [0 for i in train]
     b = 0
@@ -123,12 +97,12 @@ def find_a_b(train, test):
     K = calc_K(train)
     counter = 0
 
-    indeces = [i for i in range(0, len(train))]
+    indexes = [i for i in range(0, len(train))]
     while counter < max_counter:
         counter += 1
-        random.shuffle(indeces)
+        random.shuffle(indexes)
         for i in range(0, len(train)):
-            j = indeces[i]
+            j = indexes[i]
             if i == j:
                 continue
             [E_i, E_j] = [calc_E(i), calc_E(j)]
@@ -149,8 +123,6 @@ def find_a_b(train, test):
                 b = calc_b(a_i, a_j, a_i_old, a_j_old, E_i, E_j, i, j)
                 a[i] = a_i
                 a[j] = a_j
-        # if counter % 100 == 0:
-        #     print(counter, calc_accuracy(train, test))
 
 
 def predict_for(row, dataset):
@@ -202,7 +174,7 @@ def show_pic(data_pic, name):
     plt.show()
 
 
-def drow_dataset(dataset, name):
+def draw_dataset(dataset, name):
     mark_class_P = 1000
     mark_class_N = -1000
     mark_all_P = 400
@@ -268,7 +240,7 @@ def test_on_blocks(file, name_parameter, parameter_value):
                 train_dataset.append(j)
         start = end
         end += size_of_block
-        find_a_b(train_dataset, test_dataset)
+        find_a_b(train_dataset)
         ress = calc_accuracy(train_dataset, test_dataset)
         file.write("Accuracy for block %d = %.4f\n" % (i, ress))
         sum_accuracy += ress
@@ -280,14 +252,14 @@ def find_best_parameter(parameter_name, type_kernel_name):
     str = "research/" + dataset_name + "/" + type_kernel_name + "/research_result_for_parameter_" + parameter_name + ".txt"
     file = open(str, "w")
     best_accuracy = -1
-    best_parameter = parameter_choice_dic[parameter_name][0]
-    for i in parameter_choice_dic[parameter_name]:
+    best_parameter = parameter_choice_dict[parameter_name][0]
+    for i in parameter_choice_dict[parameter_name]:
         cur_accuracy = test_on_blocks(file, parameter_name, i)
         if cur_accuracy > best_accuracy:
             best_parameter = i
             best_accuracy = cur_accuracy
     file.write("Best parameter %s = %.3f\n" % (parameter_name, best_parameter))
-    param_name_variable_dic[parameter_name](best_parameter)
+    param_name_variable_dict[parameter_name](best_parameter)
     file.close()
 
 
@@ -297,13 +269,13 @@ def test_and_print(type_kernel_name):
     file.write("Using parameters:\n")
     global cur_core_function
     cur_core_function = kernel_dict[type_kernel_name]
-    for str in parameter_for_kernel_type_dic[type_kernel_name]:
+    for str in parameter_for_kernel_type_dict[type_kernel_name]:
         find_best_parameter(str, type_kernel_name)
-        file.write("%s = %.3f\n" % (str, param_name_variable_dic[str]()))
-    find_a_b(dataset, dataset)
+        file.write("%s = %.3f\n" % (str, param_name_variable_dict[str]()))
+    find_a_b(dataset)
     file.write("Accuracy=%.3f\n" % calc_accuracy(dataset, dataset))
     file.close()
-    drow_dataset(dataset, type_kernel_name)
+    draw_dataset(dataset, type_kernel_name)
 
 
 kernel_dict = {
@@ -312,16 +284,22 @@ kernel_dict = {
     "gaussian": gaussian_kernel
 }
 
-parameter_choice_dic = {
+parameter_choice_dict = {
     "C": [0.05, 0.1, 0.5, 1.0, 5.0, 10.0, 50.0, 100.0],
     "P": [2, 3, 4, 5],
     "B": [1, 2, 3, 4, 5]
 }
 
-parameter_for_kernel_type_dic = {
+parameter_for_kernel_type_dict = {
     "linear": ["C"],
     "polynomial": ["C", "P"],
     "gaussian": ["C", "B"]
+}
+
+param_name_variable_dict = {
+    "C": change_C,
+    "P": change_P,
+    "B": change_B
 }
 
 # PARAMETERS
@@ -333,9 +311,9 @@ cur_core_function = linear_kernel
 dataset_name = "geyser"
 
 # HYPER PARAMETERS
-C = parameter_choice_dic["C"][-1]
-P = parameter_choice_dic["P"][0]
-B = parameter_choice_dic["B"][-1]
+C = parameter_choice_dict["C"][-1]
+P = parameter_choice_dict["P"][0]
+B = parameter_choice_dict["B"][-1]
 
 dataset = 0
 
@@ -354,4 +332,3 @@ for ds_name in dataset_names:
     test_and_print("polynomial")
     print("calc for gaussian")
     test_and_print("gaussian")
-
