@@ -1,0 +1,4 @@
+Using parameters:
+C = 100.000
+B = 1.000
+Accuracy=0.864

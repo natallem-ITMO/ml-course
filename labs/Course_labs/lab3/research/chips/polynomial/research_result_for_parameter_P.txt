@@ -1,33 +1,33 @@
 Block testing for parameter P = 2.000
-Accuracy for block 0 = 0.4167
+Accuracy for block 0 = 0.7500
 Accuracy for block 1 = 0.5833
-Accuracy for block 2 = 0.5417
-Accuracy for block 3 = 0.5417
-Accuracy for block 4 = 0.4091
-Average accuracy=0.4985
+Accuracy for block 2 = 0.7917
+Accuracy for block 3 = 0.8750
+Accuracy for block 4 = 0.8182
+Average accuracy=0.7636
 
 Block testing for parameter P = 3.000
-Accuracy for block 0 = 0.4167
-Accuracy for block 1 = 0.3333
-Accuracy for block 2 = 0.3750
-Accuracy for block 3 = 0.4167
-Accuracy for block 4 = 0.2727
-Average accuracy=0.3629
+Accuracy for block 0 = 0.6250
+Accuracy for block 1 = 0.5417
+Accuracy for block 2 = 0.8750
+Accuracy for block 3 = 0.7917
+Accuracy for block 4 = 0.8636
+Average accuracy=0.7394
 
 Block testing for parameter P = 4.000
-Accuracy for block 0 = 0.5417
-Accuracy for block 1 = 0.3750
-Accuracy for block 2 = 0.4167
-Accuracy for block 3 = 0.3750
-Accuracy for block 4 = 0.5000
-Average accuracy=0.4417
+Accuracy for block 0 = 0.8333
+Accuracy for block 1 = 0.6667
+Accuracy for block 2 = 0.7500
+Accuracy for block 3 = 0.9167
+Accuracy for block 4 = 0.8182
+Average accuracy=0.7970
 
 Block testing for parameter P = 5.000
-Accuracy for block 0 = 0.5000
-Accuracy for block 1 = 0.4583
-Accuracy for block 2 = 0.3750
-Accuracy for block 3 = 0.2917
-Accuracy for block 4 = 0.5000
-Average accuracy=0.4250
+Accuracy for block 0 = 0.7500
+Accuracy for block 1 = 0.7917
+Accuracy for block 2 = 0.8750
+Accuracy for block 3 = 0.8333
+Accuracy for block 4 = 0.6818
+Average accuracy=0.7864
 
-Best parameter P = 2.000
+Best parameter P = 4.000

@@ -1,0 +1,4 @@
+Using parameters:
+C = 50.000
+P = 4.000
+Accuracy=0.797

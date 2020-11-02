@@ -1,0 +1,3 @@
+Using parameters:
+C = 0.500
+Accuracy=0.901
