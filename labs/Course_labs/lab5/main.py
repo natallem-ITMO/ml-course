@@ -81,7 +81,7 @@ def find_optimal_depth_for_all_datasets():
 
     max_opt_depth = 0
     max_opt_depth_i = -1
-    for i in range(1, max_number_of_dataset + 1):
+    for i in range(1, 1 + 1):
         cur_opt_depth = find_optimal_depth_for_dataset(i, file)
         if (cur_opt_depth < min_opt_depth):
             min_opt_depth = cur_opt_depth
@@ -149,7 +149,7 @@ def draw_graphic():
 
 
 
-# find_optimal_depth_for_all_datasets()
-draw_graphic()
+find_optimal_depth_for_all_datasets()
+# draw_graphic()
 
 
