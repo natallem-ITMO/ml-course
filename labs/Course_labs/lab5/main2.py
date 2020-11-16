@@ -35,8 +35,7 @@ def calc_accuracy(tree, test_dataset):
     return true_predicted / len(test_dataset.index)
 
 
-def prediction_by_tree_result(num, clfs, datasets, indexes):
-    # cacl prediction on each tree
+def prediction_by_forest(num, clfs, datasets, indexes):# calc prediction on each tree
     predictions = {}
     for (index, clf) in enumerate(clfs):
         cur_row = [datasets.loc[num, i] for i in indexes[index][:-1]]
@@ -54,8 +53,8 @@ def calc_forest_accuracy(clfs, datasets, indexes):
     true_predicted = 0
     for i in range(len(datasets.index)):
         if (i % 100 == 0):
-            print("calc accuracy for ", i, "out of", len(datasets.index), " for now true_predicted", true_predicted)
-        if (prediction_by_tree_result(i, clfs, datasets, indexes)):
+            print("calc accuracy for", i, "out of", len(datasets.index), ". For now true_predicted", true_predicted)
+        if (prediction_by_forest(i, clfs, datasets, indexes)):
             true_predicted += 1
     return true_predicted / len(datasets.index)
 
@@ -65,7 +64,6 @@ def find_forest(num, file):
     test_dataset = load_dataset(num, 0)
     trees_cls = list()
     trees_indexes = list()
-    # size_of_training_subset = len(train_dataset.index)
     for i in range(trees_number_in_forest):
         column_names = train_dataset.columns.values.copy()
         random.shuffle(column_names[:-1])
@@ -75,36 +73,26 @@ def find_forest(num, file):
 
         rows_indexes = [i for i in range(0,size_of_training_subset)]
         random.shuffle(rows_indexes)
-        # print(rows_indexes)
         rows_indexes = rows_indexes[:size_of_training_subset]
-        # print(rows_indexes)
-        # print(train_dataset[[2,3,4],['x1','y']])
+
         new_train_dataset1 = (train_dataset.copy().loc[:, new_features_name]).copy()
-        new_train_dataset2 = (new_train_dataset1.loc[rows_indexes, :]).copy()
+        new_train_dataset2 = (new_train_dataset1.copy().loc[rows_indexes, :]).copy()
 
         trees_indexes.append(new_features_name)
         clf = tree.DecisionTreeClassifier(criterion=criterion_choice, splitter=splitter_choice)
         clf = clf.fit(new_train_dataset2.loc[:, new_train_dataset2.columns != 'y'].copy(),
                       new_train_dataset2.loc[:, new_train_dataset2.columns == 'y'].copy())
-        # print(clf.score(new_train_dataset2.loc[:, new_train_dataset2.columns != 'y'].copy(),
-        #                 new_train_dataset2.loc[:, new_train_dataset2.columns == 'y'].copy()))
-        # print(clf.score(train_dataset.loc[:, train_dataset.columns != 'y'].copy(),
-        #                 train_dataset.loc[:, train_dataset.columns == 'y'].copy()))
         trees_cls.append(clf)
     test_accuracy = calc_forest_accuracy(trees_cls, test_dataset, trees_indexes)
     train_accuracy = calc_forest_accuracy(trees_cls, train_dataset, trees_indexes)
-    # train_accuracy = 1
     file.write("For %d dataset train accuracy=%.4f and test accuracy=%.4f\n" % (num, train_accuracy, test_accuracy))
-    print("For %d dataset train accuracy=%.4f and test accuracy=%.4f\n" % (num, train_accuracy, test_accuracy))
 
 
 def find_forests_for_all_datasets():
     file = open("research/find_forests_for_all_datasets.txt", "w")
-    ii = 1
-    for i in range(ii, ii + 1):
+    for i in range(1,max_number_of_dataset + 1):
         find_forest(i, file)
     file.close()
-
 
 size_of_training_subset = 100
 trees_number_in_forest = 900
