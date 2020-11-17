@@ -68,9 +68,9 @@ def find_optimal_depth_for_dataset(i, file):
                     optimum_criterion = cur_criterion
                     optimum_splitter = cur_splitter
     file.write("Optimum depth = %d with max accuracy = %.4f and criterion=%s splitter=%s\n\n" % (
-    optimum_depth, max_accuracy, optimum_criterion, optimum_splitter))
+        optimum_depth, max_accuracy, optimum_criterion, optimum_splitter))
     print("Optimum depth = %d with max accuracy = %.4f and criterion=%s splitter=%s\n\n" % (
-    optimum_depth, max_accuracy, optimum_criterion, optimum_splitter))
+        optimum_depth, max_accuracy, optimum_criterion, optimum_splitter))
     return optimum_depth
 
 
@@ -139,22 +139,18 @@ def draw_graphic():
         cur_accuracy = calc_accuracy(cur_max_clf, max_test_dataset)
         max_x.append(cur_accuracy)
 
-
-    plt.plot( y,min_x ,'.-y', alpha=0.6, label="min", lw=5)
-    plt.plot(y,max_x, '.-r', alpha=0.6, label="max", lw=5)
+    plt.plot(y, min_x, '.-y', alpha=0.6, label="min", lw=5)
+    plt.plot(y, max_x, '.-r', alpha=0.6, label="max", lw=5)
     plt.show()
 
 
-
-
-
-# find_optimal_depth_for_all_datasets()
-# draw_graphic()
+find_optimal_depth_for_all_datasets()
+draw_graphic()
 
 
 # Forest task
 
-def prediction_by_forest(num, clfs, datasets, indexes):# calc prediction on each tree
+def prediction_by_forest(num, clfs, datasets, indexes):  # calc prediction on each tree
     predictions = {}
     for (index, clf) in enumerate(clfs):
         cur_row = [datasets.loc[num, i] for i in indexes[index][:-1]]
@@ -165,7 +161,7 @@ def prediction_by_forest(num, clfs, datasets, indexes):# calc prediction on each
             predictions[prediction] = 1
     prediction = max(predictions, key=predictions.get)
     real = datasets.loc[num, 'y']
-    return prediction == real
+    return prediction == realG.cpp
 
 
 def calc_forest_accuracy(clfs, datasets, indexes):
@@ -187,15 +183,11 @@ def find_forest(num, file):
         column_names = train_dataset.columns.values.copy()
         random.shuffle(column_names[:-1])
         features_number = len(column_names) - 1
-        features_number_sqrt = int(features_number ** (1/2))
+        features_number_sqrt = int(features_number ** (0.8))
         new_features_name = [i for i in column_names[0:features_number_sqrt]] + ['y']
 
-        rows_indexes = [i for i in range(0,size_of_training_subset)]
-        random.shuffle(rows_indexes)
-        rows_indexes = rows_indexes[:size_of_training_subset]
-
         new_train_dataset1 = (train_dataset.copy().loc[:, new_features_name]).copy()
-        new_train_dataset2 = (new_train_dataset1.copy().loc[rows_indexes, :]).copy()
+        new_train_dataset2 = new_train_dataset1.sample(n=len(new_train_dataset1.index), replace=True)
 
         trees_indexes.append(new_features_name)
         clf = tree.DecisionTreeClassifier(criterion=criterion_choice, splitter=splitter_choice)
@@ -205,15 +197,15 @@ def find_forest(num, file):
     test_accuracy = calc_forest_accuracy(trees_cls, test_dataset, trees_indexes)
     train_accuracy = calc_forest_accuracy(trees_cls, train_dataset, trees_indexes)
     file.write("For %d dataset train accuracy=%.4f and test accuracy=%.4f\n" % (num, train_accuracy, test_accuracy))
+    print("For %d dataset train accuracy=%.4f and test accuracy=%.4f\n" % (num, train_accuracy, test_accuracy))
 
 
 def find_forests_for_all_datasets():
     file = open("research/find_forests_for_all_datasets.txt", "w")
-    for i in range(1,max_number_of_dataset + 1):
+    for i in range(1, max_number_of_dataset + 1):
         find_forest(i, file)
     file.close()
 
-size_of_training_subset = 300
-trees_number_in_forest = 600
-find_forests_for_all_datasets()
 
+trees_number_in_forest = 100
+find_forests_for_all_datasets()
