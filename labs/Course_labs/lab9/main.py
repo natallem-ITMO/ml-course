@@ -182,7 +182,6 @@ def draw_plot(dataset, classes, clusters):
     for i in res:
         x.append(i[0])
         y.append(i[1])
-
     plt.scatter(x, y, c=classes, alpha=0.3,
                 cmap='viridis')
     plt.colorbar()
@@ -195,13 +194,14 @@ def draw_plot(dataset, classes, clusters):
     plt.close()
 
 
-def drow_griphic(dataset, classes):
+def draw_griphic(dataset, classes):
     max_clusters = 14
     x = list()
 
     y_ext = list()
     y_int = list()
     for i in range(1, max_clusters):
+        print(i)
         x.append(i)
         [clusters, ext_measure] = calc_max_kmeans(dataset, i, classes)
         y_ext.append(ext_measure)
@@ -233,4 +233,4 @@ num_clusters = 3
 [clusters, ext_measure] = calc_max_kmeans(dataset, num_clusters, classes)
 
 draw_plot(dataset, classes, clusters)
-drow_griphic(dataset, classes)
+draw_griphic(dataset, classes)
